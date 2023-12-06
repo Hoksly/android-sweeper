@@ -3,7 +3,10 @@ package com.example.sweeper.views;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import androidx.core.content.ContextCompat;
+
 import android.util.Log;
 import android.view.View;
 
