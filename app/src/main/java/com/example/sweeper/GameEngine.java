@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+import android.content.Intent;
 
 import com.example.sweeper.views.Cell;
 import com.example.sweeper.utils.Generator;
@@ -82,26 +83,7 @@ public class GameEngine {
         checkEnd();
     }
 
-    private boolean checkEnd(){
-        int bombNotFound = BOMB_NUMBER;
-        int notRevealed = WIDTH * HEIGHT;
-        for ( int x = 0 ; x < WIDTH ; x++ ){
-            for( int y = 0 ; y < HEIGHT ; y++ ){
-                if( getCellAt(x,y).isRevealed() || getCellAt(x,y).isFlagged() ){
-                    notRevealed--;
-                }
 
-                if( getCellAt(x,y).isFlagged() && getCellAt(x,y).isBomb() ){
-                    bombNotFound--;
-                }
-            }
-        }
-
-        if( bombNotFound == 0 && notRevealed == 0 ){
-            Toast.makeText(context,"Game won", Toast.LENGTH_SHORT).show();
-        }
-        return false;
-    }
 
     public void flag( int x , int y ){
         boolean isFlagged = getCellAt(x,y).isFlagged();
@@ -118,5 +100,46 @@ public class GameEngine {
                 getCellAt(x,y).setRevealed();
             }
         }
+
+        new android.os.Handler().postDelayed(
+                () -> {
+                    Intent intent = new Intent(context, GameRestartActivity.class);
+                    context.startActivity(intent);
+                },
+                3000
+        );
+
     }
+
+
+    private boolean checkEnd() {
+        int bombNotFound = BOMB_NUMBER;
+        int notRevealed = WIDTH * HEIGHT;
+        for (int x = 0; x < WIDTH; x++) {
+            for (int y = 0; y < HEIGHT; y++) {
+                if (getCellAt(x, y).isRevealed() || getCellAt(x, y).isFlagged()) {
+                    notRevealed--;
+                }
+
+                if (getCellAt(x, y).isFlagged() && getCellAt(x, y).isBomb()) {
+                    bombNotFound--;
+                }
+            }
+        }
+
+        if (bombNotFound == 0 && notRevealed == 0) {
+            Toast.makeText(context, "Game won", Toast.LENGTH_SHORT).show();
+
+            // Restart the game
+            new android.os.Handler().postDelayed(
+                    () -> {
+                        Intent intent = new Intent(context, GameRestartActivity.class);
+                        context.startActivity(intent);
+                    },
+                    2000
+            );
+        }
+        return false;
+    }
+
 }

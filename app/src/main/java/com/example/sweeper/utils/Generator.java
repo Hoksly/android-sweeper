@@ -1,11 +1,6 @@
 package com.example.sweeper.utils;
-
-
 import java.util.Random;
 
-/**
- * Created by Marcell on 2016. 04. 01..
- */
 public class Generator {
 
     public static int[][] generate( int bombnumber , final int width , final int height){
@@ -48,15 +43,15 @@ public class Generator {
         }
 
         int count = 0;
-
-        if( isMineAt(grid,x - 1 ,y + 1,width,height)) count++; // top-left
-        if( isMineAt(grid,x     ,y + 1,width,height)) count++; // top
-        if( isMineAt(grid,x + 1 ,y + 1,width,height)) count++; // top-right
-        if( isMineAt(grid,x - 1 ,y    ,width,height)) count++; // left
-        if( isMineAt(grid,x + 1 ,y    ,width,height)) count++; // right
-        if( isMineAt(grid,x - 1 ,y - 1,width,height)) count++; // bottom-left
-        if( isMineAt(grid,x     ,y - 1,width,height)) count++; // bottom
-        if( isMineAt(grid,x + 1 ,y - 1,width,height)) count++; // bottom-right
+        for( int i = -1 ; i <= 1 ; i++ ){
+            for( int j = -1 ; j <= 1 ; j++ ){
+                if( x+i >= 0 && y+j >= 0 && x+i < width && y+j < height ){
+                    if( grid[x+i][y+j] == -1 ){
+                        count++;
+                    }
+                }
+            }
+        }
 
         return count;
     }
